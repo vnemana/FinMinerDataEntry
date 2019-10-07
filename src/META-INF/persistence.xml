@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="FundReportsPersistence">
+        <class>models.Cusip</class>
+        <class>models.Filing</class>
+        <class>models.Fund</class>
+        <class>models.Holding</class>
+        <properties>
+<!--            <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/FundReports"/>-->
+<!--            <property name="toplink.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/FundReports"/>-->
+<!--            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>-->
+<!--            <property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/FundReports"/>-->
+<!--            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/FundReports?serverTimezone=US/Pacific"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="mahesh"/>
+        </properties>
+    </persistence-unit>
+</persistence>

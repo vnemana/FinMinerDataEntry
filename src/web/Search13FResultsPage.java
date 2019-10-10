@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-class Search13FResultsPage {
+public class Search13FResultsPage {
     private static final String searchSite = "https://www.sec.gov";
     private HtmlPage search13fResultsPage;
 

@@ -7,7 +7,8 @@ import java.sql.Date;
 @Table(name = "Filing", schema = "FundReports")
 public class Filing {
     @Id
-    @Column(name = "filingId")
+    @Column(name = "filingId", nullable=false)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int filingId;
     public int getFilingId() {
         return filingId;
@@ -46,11 +47,11 @@ public class Filing {
         this.reportDate = reportDate;
     }
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name="fundId", referencedColumnName = "fundId")
-    private Fund fund;
-    public Fund getFund() {return fund;}
-    public void setFund(Fund fund) {this.fund = fund;}
+    @Basic
+    @Column(name = "fundId")
+    private int fundId;
+    public int getFundId() {return fundId;}
+    public void setFundId(int fundId) {this.fundId = fundId;}
 
     @Override
     public boolean equals(Object o) {

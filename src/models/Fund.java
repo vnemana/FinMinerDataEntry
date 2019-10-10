@@ -8,7 +8,7 @@ import java.util.Collection;
 public class Fund {
     @Id
     @Column(name = "fundId", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int fundId;
     public int getFundId() {
         return fundId;
@@ -26,16 +26,6 @@ public class Fund {
     public void setFundName(String fundName) {
         this.fundName = fundName;
     }
-
-    @OneToMany(mappedBy = "fund", targetEntity = Filing.class)
-    private Collection filings;
-    public Collection getFilings() {
-        return filings;
-    }
-    public void setFilings(Collection filings) {
-        this.filings = filings;
-    }
-
 
     @Override
     public boolean equals(Object o) {

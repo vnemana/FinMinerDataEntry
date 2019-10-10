@@ -7,7 +7,8 @@ import javax.persistence.*;
 public class Holding {
 
     @Id
-    @Column(name = "holdingId")
+    @Column(name = "holdingId", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int holdingId;
     public int getHoldingId() { return holdingId; }
     public void setHoldingId(int holdingId) { this.holdingId = holdingId; }
@@ -36,17 +37,17 @@ public class Holding {
     public int getNumshares() { return numshares; }
     public void setNumshares(int numshares) { this.numshares = numshares; }
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "filingId", referencedColumnName = "filingId")
-    private Filing filing;
-    public Filing getFiling() { return filing; }
-    public void setFiling(Filing filing) { this.filing = filing; }
+    @Basic
+    @Column(name = "filingId")
+    private int filingId;
+    public int getFilingId() { return filingId; }
+    public void setFilingId(int filingId) { this.filingId = filingId; }
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "fundId", referencedColumnName = "fundId")
-    private Fund fund;
-    public Fund getFund() { return fund; }
-    public void setFund(Fund fund) { this.fund = fund; }
+    @Basic
+    @Column(name = "fundId")
+    private int fundId;
+    public int getFundId() {return fundId;}
+    public void setFundId(int fundId) {this.fundId = fundId;}
 
     @Override
     public boolean equals(Object o) {

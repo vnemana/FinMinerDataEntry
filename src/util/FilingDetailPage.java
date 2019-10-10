@@ -185,7 +185,7 @@ public class FilingDetailPage {
     }
 
     public String getFilingType() {
-        String source = "/html/body/div[4]/div[3]/div[3]/p/strong[4]";
+        String source = "/html/body/div[4]/div[3]/div[3]/p/strong[3]";
         List<DomNode> domNodes = filing13FPage.getByXPath(source);
         if(domNodes.size() > 0) {
             return domNodes.get(0).getTextContent();

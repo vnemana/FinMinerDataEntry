@@ -1,5 +1,6 @@
 package web;
 
+import dao.HoldingDao;
 import models.Filing;
 import models.Fund;
 import models.Holding;
@@ -10,16 +11,17 @@ import util.FilingLinkInfo;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-class SearchFundsForm {
+public class SearchFundsForm {
     private static final String searchUrl = "https://www.sec.gov/cgi-bin/browse-edgar?company=";
     private static final String searchSite = "https://www.sec.gov";
     private static final String search13fParam = "&type=13F-HR&count=100";
 
-    private void parseAndStoreFiling(ArrayList<FilingLinkInfo> filing13FLinks) throws IOException, ParserConfigurationException, SAXException {
+    public void parseAndStoreFiling(ArrayList<FilingLinkInfo> filing13FLinks) throws IOException, ParserConfigurationException, SAXException {
         System.out.println(filing13FLinks.size());
         if (!filing13FLinks.isEmpty()) {
             for (FilingLinkInfo f: filing13FLinks) {
@@ -41,16 +43,17 @@ class SearchFundsForm {
                                 .getValue());
                     }
 
-                    Holding holding = new Holding();
                     Fund fund = new Fund();
-                    //filingDetailPage.getFundName());
+                    fund.setFundName(filingDetailPage.getFundName());
                     Filing filing = new Filing();
-                    //filing.setFilingDate(filingDetailPage.getFilingDate());
-                    //filing.setReportDate(filingDetailPage.getReportDate());
+                    filing.setFilingDate(Date.valueOf(filingDetailPage.getFilingDate()));
+                    filing.setReportDate(Date.valueOf(filingDetailPage.getReportDate()));
                     filing.setFilingType(filingDetailPage.getFilingType());
+                    HoldingDao holdingDao = new HoldingDao();
+                    holdingDao.storeFilingData(holdingRecordArrayList, fund, filing);
                     //holding.StoreFilingData(holdingRecordArrayList,filing, fund);
-                    System.out.println("Completed " + filing
-                            .getFilingDate() + " " +
+                    System.out.println("Completed " + fund.getFundName() + " " +
+                            filing.getFilingDate() + " " +
                             filing.getReportDate());
                 }
             }

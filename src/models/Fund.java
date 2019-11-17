@@ -27,6 +27,16 @@ public class Fund {
         this.fundName = fundName;
     }
 
+    @Basic
+    @Column(name = "cik")
+    private String cik;
+    public String getCik() {
+        return cik;
+    }
+    public void setCik(String cik) {
+        this.cik = cik;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -23,7 +23,10 @@ public class HoldingDao {
         if (lclFund == null) {
             fundId = fundDao.createFund(fund);
         }
-        else fundId = lclFund.getFundId();
+        else {
+            fundId = lclFund.getFundId();
+            fundDao.updateCikForFund(fundId, fund.getCik());
+        }
 
         filing.setFundId(fundId);
 

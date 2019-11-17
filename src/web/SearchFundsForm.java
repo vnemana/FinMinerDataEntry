@@ -45,6 +45,7 @@ public class SearchFundsForm {
 
                     Fund fund = new Fund();
                     fund.setFundName(filingDetailPage.getFundName());
+                    fund.setCik(filingDetailPage.getCik());
                     Filing filing = new Filing();
                     filing.setFilingDate(Date.valueOf(filingDetailPage.getFilingDate()));
                     filing.setReportDate(Date.valueOf(filingDetailPage.getReportDate()));

@@ -8,19 +8,27 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import util.FilingLinkInfo;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Search13FResultsPage {
     private static final String searchSite = "https://www.sec.gov";
     private HtmlPage search13fResultsPage;
+    private String minFilingDate;
 
-    public Search13FResultsPage(String url) {
+    public Search13FResultsPage(String url, String minFilingDate) {
         try (final WebClient webClient = new WebClient()) {
             search13fResultsPage = webClient.getPage(url);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+        if (minFilingDate != null)
+            this.minFilingDate = minFilingDate;
     }
 
     public String get13FFilingLink () {
@@ -46,11 +54,26 @@ public class Search13FResultsPage {
                 List<DomNode> fDate = search13fResultsPage.getByXPath(
                         "/html/body/div[4]/div[4]/table/tbody/tr[" + (ii + 2) + "]/td[4]");
 
-                if (docType.get(0).getTextContent().equals("13F-HR")) {
-                    FilingLinkInfo fInfo = new FilingLinkInfo();
-                    fInfo.setLink(searchSite + site.get(0).getTextContent());
-                    fInfo.setFilingDate(fDate.get(0).getTextContent());
-                    links.add(fInfo);
+                try {
+                    if (docType.get(0).getTextContent().equals("13F-HR")) {
+                        FilingLinkInfo fInfo = new FilingLinkInfo();
+                        fInfo.setLink(searchSite + site.get(0).getTextContent());
+                        fInfo.setFilingDate(fDate.get(0).getTextContent());
+                        if (this.minFilingDate != null) {
+                            SimpleDateFormat df = new SimpleDateFormat
+                                    ("yyyy-MM-dd");
+                                Date minFilingDate = df.parse(this.minFilingDate);
+                                Date filingDate = df.parse(fInfo.getFilingDate());
+                            if (filingDate.compareTo(minFilingDate) >= 0) {
+                                links.add(fInfo);
+                            }
+                        }
+                        else {
+                            links.add(fInfo);
+                        }
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
         }

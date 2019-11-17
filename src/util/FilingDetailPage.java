@@ -185,7 +185,7 @@ public class FilingDetailPage {
     }
 
     public String getFilingType() {
-        String source = "/html/body/div[4]/div[3]/div[3]/p/strong[3]";
+        String source = "/html/body/div[4]/div[3]/div[3]/p/strong[4]";
         List<DomNode> domNodes = filing13FPage.getByXPath(source);
         if(domNodes.size() > 0) {
             return domNodes.get(0).getTextContent();
@@ -224,4 +224,18 @@ public class FilingDetailPage {
         }
         return null;
     }
+
+    public String getCik() {
+        try (final WebClient webClient = new WebClient()){
+            String source = "/html/body/div[4]/div[3]/div[3]/span/a";///html
+            // /body/div[4]/div[2]/div[1]/table/tbody/tr[2]/td[3]/a/@href";
+            List<DomNode> domNodes = filing13FPage.getByXPath(source);
+            if (domNodes.size() > 0) {
+                    String[] cik = domNodes.get(0).getTextContent().split(" ");
+                    return cik[0];
+            }
+        }
+        return null;
+    }
+
 }

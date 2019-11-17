@@ -2,10 +2,7 @@ package dao;
 
 import models.Fund;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 public class FundDao {
@@ -14,7 +11,7 @@ public class FundDao {
                 "FundReportsPersistence");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em. persist(fund);
+        em.persist(fund);
         em.getTransaction().commit();
 
         TypedQuery<Fund> query = em.createQuery("select f from Fund f where f.fundName=" +
@@ -26,6 +23,39 @@ public class FundDao {
         emf.close();
         //TODO: If list > 1 then throw exception.
         return funds.get(0).getFundId();
+    }
+
+    public void updateCikForFund(int fundId, String cik) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory
+                ("FundReportsPersistence");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("UPDATE Fund f set f.cik = " +
+                ":cik_name where f.fundId = :fund_id");
+        query.setParameter("cik_name", cik);
+        query.setParameter("fund_id", fundId);
+
+        query.executeUpdate();
+
+        em.getTransaction().commit();
+        em.clear();
+        emf.close();
+    }
+
+    public void deleteFundByCik(String cik) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory
+                ("FundReportsPersistence");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("DELETE from Fund f where f.cik = " +
+                ":cik_name");
+        query.setParameter("cik_name", cik).executeUpdate();
+
+        em.getTransaction().commit();
+        em.clear();
+        emf.close();
     }
 
     public Fund getFund(String fundName) {
